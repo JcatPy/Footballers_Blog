@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if title %}
+        <title>Flask {{title}}</title>
+    {% else %}
+        <title>Document</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <div class="header_container">
+            <h1>Footballers Blog</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('hello') }}">Home</a></li>
+                    <li><a href="{{ url_for('about_page') }}">About</a></li>
+                    {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">LogOut</a></li>
+                            <li><a href="{{ url_for('user_profile') }}">Account</a></li>
+                    {% else %}
+                            <li><a href="{{ url_for('register') }}">Sign up</a></li>
+                            <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash message container -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main content -->
+    <div class="body_container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{{ url_for('static', filename='update_account.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="account-details">
+    <!-- Displaying the profile image -->
+    <div class="profile-image">
+        <img src="{{ image_file }}"
+             alt="{{ current_user.username }}'s profile picture" class="profile-pic">
+    </div>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
+
+        <div>
+            {{ form.username.label }}  <!-- Label for username -->
+            {{ form.username }}        <!-- Username input field -->
+        </div>
+
+        <div>
+            {{ form.email.label }}     <!-- Label for email -->
+            {{ form.email }}           <!-- Email input field -->
+        </div>
+
+
+        <div>
+            {{ form.submit() }}        <!-- Submit button -->
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock content %}

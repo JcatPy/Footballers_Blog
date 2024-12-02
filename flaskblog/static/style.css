@@ -1,0 +1,153 @@
+/* General styling for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1c1c1c;  /* Dark background */
+    color: #e0e0e0;  /* Light text color */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+    background-color: #008080;  /* Muted teal background */
+    color: #f9f9f9;  /* Light off-white text color */
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: #ffffff;  /* Pure white for the header title */
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 20px;
+}
+
+header nav ul li a {
+    color: #f0f0f0;  /* Light color for nav links */
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #ffd700;  /* Soft gold for hover effect */
+}
+
+/* Blog Post Container */
+.blog-posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Responsive grid */
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Individual Post Styling */
+.post {
+    background-color: #333;  /* Dark gray background for post cards */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);  /* Stronger shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6);  /* Deeper shadow on hover */
+}
+
+.post h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #f39c12;  /* Orange color for post titles */
+}
+
+.post p {
+    font-size: 1.1rem;
+    color: #bbbbbb;  /* Lighter gray for text */
+}
+
+/* Styling for the title in home.html */
+.home-title {
+    font-size: 3rem;
+    text-align: center;
+    color: #f39c12;  /* Same orange as in the header */
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Container class for general layout */
+.header_container, .body_container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Footer Styling (Optional Addition) */
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Container for the account details */
+.account-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    color: #f0f0f0;  /* Light text color for dark backgrounds */
+}
+
+/* Profile image styling */
+.profile-image {
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);  /* Subtle white shadow */
+    border: 3px solid #fff;  /* White border to make the image stand out */
+}
+
+/* Styling for user information */
+.user-info h1 {
+    font-size: 2.5rem;
+    color: #ffffff;  /* Pure white for better contrast on dark background */
+}
+
+.user-info p {
+    font-size: 1.2rem;
+    color: #dcdcdc;  /* Light gray for subtle contrast */
+}
+
+
+
+

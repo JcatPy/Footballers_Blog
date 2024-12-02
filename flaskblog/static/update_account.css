@@ -1,0 +1,127 @@
+/* Main container for the account details */
+
+body{
+    margin-bottom: 100px
+}
+
+.account-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    color: #f0f0f0;  /* Light text color for dark themes */
+}
+
+/* Profile image styling */
+.profile-image {
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);  /* Soft white shadow */
+    border: 3px solid #fff;  /* White border to stand out */
+}
+
+/* Styling for the user information */
+.user-info h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+}
+
+.user-info p {
+    font-size: 1.2rem;
+    color: #dcdcdc;  /* Light gray for contrast */
+}
+
+/* Form container */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    background-color: #333;  /* Dark background for form */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);  /* Shadow for depth */
+}
+
+/* Individual form field containers */
+form div {
+    margin-bottom: 15px;
+}
+
+/* Labels for form fields */
+form label {
+    display: block;
+    font-weight: bold;
+    color: #f0f0f0;  /* Light label text for dark background */
+    margin-bottom: 5px;
+}
+
+/* Input fields */
+form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #e0e0e0;  /* Light background for inputs */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Input fields on focus */
+form input:focus {
+    border-color: #007bff;  /* Light blue border on focus */
+    outline: none;
+    background-color: #fff;
+}
+
+/* Submit button styling */
+form input[type="submit"] {
+    background-color: #1e90ff;  /* Blue background for submit button */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover effect */
+form input[type="submit"]:hover {
+    background-color: #0056b3;  /* Darker blue on hover */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 600px) {
+    form {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    form input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    form input[type="submit"] {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+    }
+
+    .user-info h1 {
+        font-size: 2rem;
+    }
+}

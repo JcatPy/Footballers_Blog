@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="blog-posts">
+    {% for footballer in footballers %}
+    <div class="post">
+        <h2>{{ footballer.name }}</h2>
+        <p>Age: {{ footballer.age }} years old</p>
+        <p>Height: {{ footballer.height }} cm</p>
+        <p>Country: {{ footballer.country }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
