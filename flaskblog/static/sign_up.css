@@ -29,7 +29,7 @@ form div {
 form label {
     display: block;
     font-weight: bold;
-    color: #333;  /* Darker label color for contrast */
+    color: blue;  /* Darker label color for contrast */
     margin-bottom: 5px;
 }
 
