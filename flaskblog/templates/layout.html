@@ -9,6 +9,7 @@
         <title>Document</title>
     {% endif %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- custom css for other html files -->
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -21,6 +22,7 @@
                     <li><a href="{{ url_for('hello') }}">Home</a></li>
                     <li><a href="{{ url_for('about_page') }}">About</a></li>
                     {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('new_post') }}">New Post</a></li>
                             <li><a href="{{ url_for('logout') }}">LogOut</a></li>
                             <li><a href="{{ url_for('user_profile') }}">Account</a></li>
                     {% else %}

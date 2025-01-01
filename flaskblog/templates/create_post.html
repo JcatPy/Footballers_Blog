@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+    <link rel = "stylesheet" href="{{ url_for('static', filename='sign_up.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<h1> New Post </h1>
+
+  <form method="POST" action="">
+        {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
+        <div>
+            {{ form.title.label }}     <!-- Label for title -->
+            {{ form.title }}           <!-- title input field -->
+        </div>
+
+        <div>
+            {{ form.content.label }}  <!-- Label for content -->
+            {{ form.content }}        <!-- Writing posts -->
+        </div>
+
+        <div>
+            {{ form.submit() }}        <!-- Submit button -->
+        </div>
+    </form>
+
+{% endblock content %}

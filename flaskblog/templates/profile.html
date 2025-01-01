@@ -13,7 +13,7 @@
              alt="{{ current_user.username }}'s profile picture" class="profile-pic">
     </div>
 
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
         {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
 
         <div>
@@ -24,6 +24,11 @@
         <div>
             {{ form.email.label }}     <!-- Label for email -->
             {{ form.email }}           <!-- Email input field -->
+        </div>
+
+        <div>
+            {{ form.picture.label }}
+            {{ form.picture }}
         </div>
 
 

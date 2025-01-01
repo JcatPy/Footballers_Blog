@@ -1,68 +1,11 @@
+import secrets
+import os
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
-from .forms import RegisterForm, LoginForm, UpdateAccountForm
+from .forms import RegisterForm, LoginForm, UpdateAccountForm, PostForm
 from . import app, db, bcrypt
 from .models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
-
-
-#information of football players, each dictionary inside list contain data of one player
-Footballers = [
-    {
-        'name': 'Jolin',
-        'age': 21 ,
-        'height': 175,
-        'country': 'India'
-    },
-
-{
-    'name': 'Grape',
-    'age': 30,
-    'height': 160,
-    'country': 'Chinese-Canadian'
-    },
-
-{
-    'name': 'Meow',
-    'age': 22,
-    'height': 165,
-    'country': 'Usa'
-    } ,
-
-{
-    'name': 'Adel',
-    'age': 25,
-    'height': 168,
-    'country': 'Canada'
-    } ,
-
-{
-    'name': 'Matt',
-    'age': 22,
-    'height': 178,
-    'country': 'Canada'
-    },
-
-{
-    'name': 'Mihir',
-    'age': 26,
-    'height': 174,
-    'country': 'India'
-    },
-
-{
-    'name': 'Ravi',
-    'age': 27,
-    'height': 172,
-    'country': 'Indian-Canadian'
-    },
-{
-    'name': 'Anant',
-    'age': 18,
-    'height': 184,
-    'country': 'India'
-    }
-]
-
 
 # Define a route that maps the URL "/" (the root URL) to the following function
 @app.route("/")
@@ -71,24 +14,25 @@ Footballers = [
 def hello():
     # This function will be triggered when someone accesses the root or home URL
     # It returns a response "Hello, Flask!" to the client (web browser)
-    return render_template('home.html',  footballers = Footballers)
+    posts = Post.query.all()
+    return render_template('home.html',  posts=posts)
 
 @app.route("/about")
 def about_page():
-    return render_template('about.html', footballers = Footballers)
+    return render_template('about.html')
 
 @app.route("/register", methods = ['GET','POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('hello'))
     form = RegisterForm()
-    if form.validate_on_submit():
-        username = form.username.data
+    if form.validate_on_submit():  # if the form is validated according to the validators
+        username = form.username.data # get the data from the form
         email = form.email.data
         password = form.password.data
         confirm_password = form.confirm_password.data
         submit = form.submit.data
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8') # hash the password
         user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
@@ -105,8 +49,8 @@ def login():
         email = form.email.data
         password = form.password.data
         submit = form.submit.data
-        user = User.query.filter_by(email=email).first()
-        if user and bcrypt.check_password_hash(user.password, password):
+        user = User.query.filter_by(email=email).first() # get the user from the database
+        if user and bcrypt.check_password_hash(user.password, password): # check if the user exists and password is correct
             # Log in the user after successful authentication
             login_user(user, remember=form.Remember.data) # This will keep the user logged in even after closing the browser
             return redirect(url_for('hello'))
@@ -120,11 +64,27 @@ def logout():
     flash("You have been logged out.")
     return redirect(url_for('hello'))
 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8) # generate a random hex
+    _, fext = os.path.splitext(form_picture.filename) # get the file extension
+    picture_fn = random_hex + fext # create a new file name with random hex and file extension
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    resize_img = Image.open(form_picture) # open the image
+    resize_img.thumbnail(output_size) # resize the image
+
+    resize_img.save(picture_path) # save the picture to the path created above and return the file name
+    return picture_fn
+
 @app.route("/user_profile", methods = ['GET','POST'])
-@login_required
+@login_required # this decorator ensures that the user is logged in
 def user_profile():
     form = UpdateAccountForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit(): # if the form is validated
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
@@ -136,3 +96,15 @@ def user_profile():
 
     image_file = url_for('static', filename = 'profile_pics/' + current_user.image_file)
     return render_template('profile.html', title='Account', image_file = image_file, form=form)
+
+@app.route("/post/new", methods = ['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title = form.title.data, content = form.content.data, author = current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('hello'))
+    return render_template('create_post.html', title='New Post', form=form)
