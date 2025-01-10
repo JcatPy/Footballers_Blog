@@ -8,7 +8,7 @@ from .models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 import smtplib
 from email.message import EmailMessage
-import json
+import os
 
 
 # Define a route that maps the URL "/" (the root URL) to the following function
@@ -151,7 +151,7 @@ def send_reset_email(user):
     SMTP_SERVER = 'smtp.gmail.com'  # Email server (Gmail)
     SMTP_PORT = 465  # Use 465 if SSL is required
     EMAIL_ADDRESS = 'lodhiyajoline@gmail.com'
-    EMAIL_PASSWORD = 'iqpgfdxhgsfimnaj'
+    EMAIL_PASSWORD = os.environ.get('email_pass')
 
     msg = EmailMessage()  # Create a new EmailMessage object
     msg['Subject'] = 'Password Reset Request'
