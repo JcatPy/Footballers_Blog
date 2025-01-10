@@ -7,18 +7,12 @@
 {% block content %}
 
 
-<h1> {{ title }} </h1>
-
-  <form method="POST" action="">
+<h1>Reset Password</h1>
+    <form method="POST" action="">
         {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
         <div>
-            {{ form.title.label }}     <!-- Label for title -->
-            {{ form.title }}           <!-- title input field -->
-        </div>
-
-        <div>
-            {{ form.content.label }}  <!-- Label for content -->
-            {{ form.content }}        <!-- Writing posts -->
+            {{ form.email.label }}     <!-- Label for email -->
+            {{ form.email }}           <!-- Email input field -->
         </div>
 
         <div>

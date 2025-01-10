@@ -11,6 +11,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- custom css for other html files -->
     {% block extra_css %}{% endblock %}
+
+    <script>
+    // Function to handle the confirmation and deletion
+    function confirmDelete(postId) {
+    // Show confirmation dialog
+    const confirmed = confirm("Are you sure you want to delete this post?");
+
+    if (confirmed) {
+        // Create a hidden form to send a POST request
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/post/${postId}/delete`;
+
+        // Create a hidden input for the CSRF token
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrf_token';
+        csrfToken.value = '{{ csrf_token() }}'; // Get the CSRF token from the page
+        form.appendChild(csrfToken);
+
+        // Append the form to the body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+
 </head>
 <body>
     <!-- Header with navigation -->

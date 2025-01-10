@@ -1,28 +1,32 @@
 {% extends "layout.html" %}
 
 {% block extra_css %}
-    <link rel = "stylesheet" href="{{ url_for('static', filename='sign_up.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='sign_up.css') }}">
 {% endblock %}
 
 {% block content %}
 
-
 <h1>Sign In</h1>
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
-        <div>
-            {{ form.email.label }}     <!-- Label for email -->
-            {{ form.email }}           <!-- Email input field -->
-        </div>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}  <!-- This includes the CSRF token for protection -->
 
-        <div>
-            {{ form.password.label }}  <!-- Label for password -->
-            {{ form.password }}        <!-- Password input field -->
-        </div>
+    <div>
+        {{ form.email.label }}     <!-- Label for email -->
+        {{ form.email }}           <!-- Email input field -->
+    </div>
 
-        <div>
-            {{ form.submit() }}        <!-- Submit button -->
-        </div>
-    </form>
+    <div>
+        {{ form.password.label }}  <!-- Label for password -->
+        {{ form.password }}        <!-- Password input field -->
+    </div>
+
+    <div>
+        <a href="{{ url_for('reset_request') }}">Forgot Password?</a>  <!-- Forgot Password Link -->
+    </div>
+
+    <div>
+        {{ form.submit() }}        <!-- Submit button -->
+    </div>
+</form>
 
 {% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='update_account.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="blog-posts">
+    <div class="post">
+        <div class="profile-image">
+            <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+        </div>
+        <h3>{{ post.author.username }}</h3>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <div class="change">
+            <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn update">Update</a>
+            <button class="btn delete" onclick="confirmDelete({{ post.id }})"> Delete </button>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

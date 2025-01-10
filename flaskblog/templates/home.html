@@ -7,15 +7,30 @@
 {% block content %}
 
 <div class="blog-posts">
-    {% for post in posts %}
+    {% for post in posts.items %}
     <div class="post">
         <div class="profile-image">
             <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
          </div>
         <h3> {{ post.author.username }} </h3>
-        <h2> {{ post.title }} </h2>
+        <h2> <a href="{{ url_for('post', post_id = post.id) }}"> {{ post.title }} </a>></h2>
         <p> {{ post.content }} </p>
     </div>
+
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% for page_num in posts.iter_pages() %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a href="{{ url_for('hello', page=page_num) }}" class="page-link active">{{ page_num }}</a>
+            {% else %}
+                <a href="{{ url_for('hello', page=page_num) }}" class="page-link">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+            <span class="page-link disabled">...</span>
+        {% endif %}
     {% endfor %}
 </div>
 

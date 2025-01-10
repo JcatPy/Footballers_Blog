@@ -1,11 +1,15 @@
 import secrets
 import os
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
-from .forms import RegisterForm, LoginForm, UpdateAccountForm, PostForm
+from flask import render_template, url_for, flash, redirect, request, abort
+from .forms import RegisterForm, LoginForm, UpdateAccountForm, PostForm, RequestResetForm, ResetPasswordForm
 from . import app, db, bcrypt
 from .models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
+import smtplib
+from email.message import EmailMessage
+import json
+
 
 # Define a route that maps the URL "/" (the root URL) to the following function
 @app.route("/")
@@ -13,8 +17,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/home")
 def hello():
     # This function will be triggered when someone accesses the root or home URL
-    # It returns a response "Hello, Flask!" to the client (web browser)
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=4)
     return render_template('home.html',  posts=posts)
 
 @app.route("/about")
@@ -30,8 +34,7 @@ def register():
         username = form.username.data # get the data from the form
         email = form.email.data
         password = form.password.data
-        confirm_password = form.confirm_password.data
-        submit = form.submit.data
+
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8') # hash the password
         user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
@@ -108,3 +111,87 @@ def new_post():
         flash('Your post has been created!', 'success')
         return redirect(url_for('hello'))
     return render_template('create_post.html', title='New Post', form=form)
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+@app.route("/post/<int:post_id>/update", methods = ['GET','POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Update Post', form=form)
+
+@app.route("/post/<int:post_id>/delete", methods = ['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('hello'))
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    SMTP_SERVER = 'smtp.gmail.com'  # Email server (Gmail)
+    SMTP_PORT = 465  # Use 465 if SSL is required
+    EMAIL_ADDRESS = 'lodhiyajoline@gmail.com'
+    EMAIL_PASSWORD = 'iqpgfdxhgsfimnaj'
+
+    msg = EmailMessage()  # Create a new EmailMessage object
+    msg['Subject'] = 'Password Reset Request'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = user.email
+    msg.set_content(f"To reset your password, visit the following link: {url_for('reset_password', token=token, _external=True)} Ignore if you did not make this request")
+    # Send email
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp:  # Connect to the server
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)  # Login to the email server
+            smtp.send_message(msg)  # Send the email
+            print('Email sent successfully!')
+    except Exception as e:
+        print(f'Failed to send email: {e}')
+
+@app.route("/reset_password", methods = ['GET','POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('hello'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash(f'An email has been sent to {user.email} with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+@app.route("/reset_password/<token>", methods = ['GET','POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('hello'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():  # if the form is validated according to the validators
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') # hash the password
+        user.password = hashed_password
+        db.session.commit()
+        flash(f'password has been updated for {user.username}', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', title='ResetPassword', form=form)

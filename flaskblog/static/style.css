@@ -1,8 +1,8 @@
-/* General styling for body */
+/* General Styling for Body */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #1c1c1c;  /* Dark background */
-    color: #e0e0e0;  /* Light text color */
+    background-color: #1c1c1c; /* Dark background */
+    color: #e0e0e0; /* Light text color */
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -10,18 +10,18 @@ body {
 
 /* Header Styling */
 header {
-    background-color: #008080;  /* Muted teal background */
-    color: #f9f9f9;  /* Light off-white text color */
+    background-color: #008080; /* Muted teal background */
+    color: #f9f9f9; /* Light off-white text color */
     padding: 20px 0;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     margin: 0;
     font-size: 2.8rem;
     font-weight: 600;
-    color: #ffffff;  /* Pure white for the header title */
+    color: #ffffff; /* Pure white for the header title */
 }
 
 header nav ul {
@@ -30,69 +30,189 @@ header nav ul {
     padding: 0;
     display: flex;
     justify-content: center;
-}
-
-header nav ul li {
-    margin: 0 20px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 header nav ul li a {
-    color: #f0f0f0;  /* Light color for nav links */
+    color: #f0f0f0;
     text-decoration: none;
     font-size: 1.2rem;
     transition: color 0.3s ease;
 }
 
 header nav ul li a:hover {
-    color: #ffd700;  /* Soft gold for hover effect */
+    color: #ffd700; /* Soft gold for hover effect */
 }
 
 /* Blog Post Container */
 .blog-posts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Responsive grid */
+     grid-template-columns: repeat(2, 1fr); /* Responsive grid */
     gap: 20px;
     padding: 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
+.blog-posts h3{
+    color: #f39c12; /* Highlighted orange */
+    }
+
+.blog-posts h2 a{
+      color: #4CAF50;
+    }
+
 /* Individual Post Styling */
 .post {
-    background-color: #333;  /* Dark gray background for post cards */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);  /* Stronger shadow */
+    background-color: #2c2c2c; /* Slightly lighter dark background */
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
 .post:hover {
     transform: translateY(-5px);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6);  /* Deeper shadow on hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
-.post h2 {
-    margin-top: 0;
-    font-size: 1.8rem;
-    color: #f39c12;  /* Orange color for post titles */
+/* Post Header for Author and Profile */
+.post-header {
+    display: flex;
+    align-items: center; /* Align items vertically centered */
+    gap: 15px; /* Space between image and username */
+    margin-bottom: 15px; /* Space before title */
 }
 
-.post p {
-    font-size: 1.1rem;
-    color: #bbbbbb;  /* Lighter gray for text */
+.profile-image img {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border: 2px solid #444; /* Subtle border for the image */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Styling for the title in home.html */
+
+
+/* Author Details */
+.author-details h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #f0f0f0; /* Brighter text for author name */
+}
+
+.author-details small {
+    color: #bbb;
+    font-size: 0.9em;
+}
+
+/* Post Content */
+.post-content h2 {
+    font-size: 1.4em;
+    margin: 10px 0;
+    color: #f39c12; /* Highlighted heading */
+}
+
+.post-content p {
+    font-size: 1em;
+    color: #ddd;
+    line-height: 1.6;
+}
+
+/* Pagination Styling */
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination .page-link {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .page-link.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination .page-link.disabled {
+    color: #aaa;
+    pointer-events: none;
+    border: 1px solid #ddd;
+}
+
+
+.change {
+    display: flex;
+    justify-content: center; /* Center align the buttons horizontally */
+    align-items: center; /* Center align vertically if needed */
+    gap: 15px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+/* General Button Styling */
+.change .btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button */
+.change .btn.update {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+}
+
+.change .btn.update:hover {
+    background-color: #388E3C;
+    transform: translateY(-2px);
+}
+
+/* Delete Button */
+.change .btn.delete {
+    background-color: #E53935; /* Red */
+    color: white;
+    border: none;
+}
+
+.change .btn.delete:hover {
+    background-color: #C62828;
+    transform: translateY(-2px);
+}
+
+/* Styling for the Home Page Title */
 .home-title {
     font-size: 3rem;
     text-align: center;
-    color: #f39c12;  /* Same orange as in the header */
+    color: #f39c12; /* Highlighted orange */
     margin-bottom: 40px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Container class for general layout */
-.header_container, .body_container {
+/* Layout Containers */
+.header_container,
+.body_container {
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -100,7 +220,7 @@ header nav ul li a:hover {
     align-items: center;
 }
 
-/* Footer Styling (Optional Addition) */
+/* Footer Styling */
 footer {
     background-color: #2c3e50;
     color: white;
@@ -114,40 +234,63 @@ footer p {
     font-size: 1rem;
 }
 
-/* Container for the account details */
+/* Account Details Container */
 .account-details {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
-    color: #f0f0f0;  /* Light text color for dark backgrounds */
+    color: #f0f0f0;
 }
 
-/* Profile image styling */
-.profile-image {
-    margin-bottom: 20px;
-}
-
+/* Profile Picture Styling */
 .profile-pic {
     border-radius: 50%;
     width: 150px;
     height: 150px;
     object-fit: cover;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);  /* Subtle white shadow */
-    border: 3px solid #fff;  /* White border to make the image stand out */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    border: 3px solid #fff;
 }
 
-/* Styling for user information */
+/* User Information Styling */
 .user-info h1 {
     font-size: 2.5rem;
-    color: #ffffff;  /* Pure white for better contrast on dark background */
+    color: #ffffff;
 }
 
 .user-info p {
     font-size: 1.2rem;
-    color: #dcdcdc;  /* Light gray for subtle contrast */
+    color: #dcdcdc;
 }
 
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
 
+    .home-title {
+        font-size: 2.5rem;
+    }
 
+    .post {
+        padding: 15px;
+    }
+}
 
+@media (max-width: 480px) {
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .post h2 {
+        font-size: 1.2rem;
+    }
+
+    .post p {
+        font-size: 0.9rem;
+    }
+}
